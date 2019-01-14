@@ -1,3 +1,9 @@
+// the content script runs in the context of the browser's current displayed content. Content scripts are used to pull data from the current webpage and feed it to the background script to be used with chrome's various built-in API's or sent to the extension application via chrome's messaging protocol. It should be noted that content scripts only have limited access to chrome's built-in APIs and they are indifferent to the tabs that are currently being displayed, and so, these scripts that send messages to either the extensions running scripts or the background script will need to declare the current tab to pull data from first.
+
+// ------------------------------ // 
+
+
+// defines a function that will take an array of song data
 function addSongInfoToTitle (songDataArr) {
   const songTitlesArr = [...document.getElementsByClassName('tracklist-name')]
   const pitchClass = [

@@ -1,3 +1,6 @@
+// this popup.js javascript file delineates the code that will run when the extension appplication is launched. It will likely run in tandem with the background and content scripts.
+
+// ------------------------------ // 
 
 // finds the button by it's element and sets it equal to a block scoped variable 'button'
 let button = document.getElementById('authBtn')
