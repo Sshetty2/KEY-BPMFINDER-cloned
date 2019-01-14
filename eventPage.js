@@ -1,3 +1,7 @@
+// the eventPage is a relatively new implementation of chrome's background scripts. Instead of keeping a persistent script running in the background, the event page will launch a single terminable instance that will only fire if neccessary when events are called. the browser will save a memory of the scripts, and, truncated copies of their execution protocols and will then relaunch them as neccessary. This approach saves CPU and Memory resources as the browser can unload the background script when not in use after some time.
+
+// ------------------------------ // 
+
 chrome.runtime.onInstalled.addListener(function(){
   chrome.storage.local.set({status: 0}, function(innerObj){
     chrome.storage.local.get(['status'], function(storageObj){
