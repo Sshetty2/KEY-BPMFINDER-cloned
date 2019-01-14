@@ -1,9 +1,8 @@
 
-// finds the button by it's element and sets it equal to a variable
+// finds the button by it's element and sets it equal to a block scoped variable 'button'
 let button = document.getElementById('authBtn')
 
-// defines a function that will utilize chome's local storage api to query the value of 'storageObj.status'; if the status is '1' then the button's attribute will be set to disabled
-
+// this script utilizes chome's local storage api to query the value of 'storageObj.status'; if the status is '1' then the button's attribute will be set to disabled
   chrome.storage.local.get(['status'], function(storageObj){
     console.log('storageObj is ', storageObj)
     if (storageObj.status === 1){
@@ -19,8 +18,7 @@ let button = document.getElementById('authBtn')
 
 // .3 This function will then utilize chrome's alarm API to 'create' an alarm called 'enableButton' set to go off in .1 minutes; the function below this listens for the alarm and then sets the attribute of the button to enabled once it 'hears' the alarm. 
 
-// .4 Finally, this function utilizes chromes storage api to set the state if 'status' held in the storage object hosted by chrome for the application to 1(this will activate the button 'disabled' button attribute in the function above). The callback attached to this function is largely unneccessary as it simply logs confirmation and reiterates the command to set the buttons' disabled attribute
-
+// .4 Finally, this function utilizes chromes storage api to set the state of 'status' held in the the storage object hosted by chrome for the application to 1 handled in the function above if that script runs again. The callback attached to this function will set the attribute of the 'button' to disabled
 function handler(){ // .1
       chrome.extension.sendMessage({ // .2 
           action: 'launchOauth'
@@ -34,6 +32,7 @@ function handler(){ // .1
       })
 }
 
+// this script utilizes the chrome alarm api to listen for an alarm. Once the alarm is fired, a message is logged to the console and chrome's storage api is queried once again. 'status' is set to 0 and the 'disabled' attribute of the 'button' is removed so that it can be clickable once again and another message indicating the status of the alarm and the current state of local storage is logged to the console.
 chrome.alarms.onAlarm.addListener(function(){
   console.log('running the alarm')
   chrome.storage.local.set({status: 0}, function(){
@@ -42,4 +41,6 @@ chrome.alarms.onAlarm.addListener(function(){
   console.log('onAlarm storage status is ', localStorage)
 })
 
+
+// this variable declaration sets the the button's 'onclick' event equal to the function 'handler' defined above 
 button.onclick = handler
