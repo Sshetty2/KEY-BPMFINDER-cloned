@@ -95,7 +95,7 @@ function makeXhrPostRequest(code, grantType, refreshToken){ //.1
 
 // 13. the data used as a parameter is returned from the function; it does not appear that it is being used for anything meaningful after being returned from the promise
 
-// 14. if this promise fails, the catch method will handle errors
+// 14. If this promise fails, the catch method will handle errors.
 
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse){ //.1
   if (request.action === 'launchOauth'){ //.2
