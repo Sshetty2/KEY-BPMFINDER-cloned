@@ -3,7 +3,21 @@
 // ------------------------------ // 
 
 
-// defines a function that will take an array of song data
+// NOTE: The function declaration below is used later on in the XML request promise.
+
+// 1. This function takes one argument that will be the response from the XML request which will be an array of parsed song data. This array will be an array of objects.
+
+// 2. A constant named 'sontTitlesArr' is declared and set equal to an array with the elements on the page with the class name 'tracklist-name' using the ES6 spread operator syntax. The spread operator allows multiple items to be populated into an array. 
+
+// 3. A constant named pitchClass is declared and set equal to an array of musical notes
+
+// 4. A new block-scoped variable is declared and set equal to an array that contains each key that is a part of each song data item in the song data array
+
+//.5 A new block-scoped variable is declared and set equal to an array that contains each tempo that is a part of each song data item in the song data array
+
+//.6 a new block-scoped variable is declared and set equal to an array that contains each mode that is a part of each song data object in the song data array
+
+
 function addSongInfoToTitle (songDataArr) {
   const songTitlesArr = [...document.getElementsByClassName('tracklist-name')]
   const pitchClass = [

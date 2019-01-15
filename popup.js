@@ -21,7 +21,7 @@ let button = document.getElementById('authBtn')
 
 // .3 This function will then utilize chrome's alarm API to create an alarm called 'enableButton' set to go off in .1 minutes; the function below this listens for the alarm and then sets the attribute of the button to enabled once it 'hears' the alarm. 
 
-// .4 Finally, this function utilizes chromes storage api to set the state of 'status' held in the the storage object hosted by chrome for the application to 1 handled in the function above if that script happens to run again. The callback attached to this function will set the attribute of the 'button' to disabled
+// .4 Finally, this function utilizes chromes storage api to set the state of 'status' held in the the storage object hosted by chrome to be handled in the function above if that script happens to run again. The callback attached to this function will set the attribute of the 'button' to disabled
 function handler(){ // .1
       chrome.extension.sendMessage({ // .2 
           action: 'launchOauth'
