@@ -10,7 +10,7 @@
 
 // 1. This function takes one argument that will be the response from the XML request which will be an array of parsed song data. This array will be an array of objects.
 
-// 2. A constant named 'sontTitlesArr' is declared and set equal to an array with the elements on the page with the class name 'tracklist-name' using the ES6 spread operator syntax. The spread operator allows multiple items to be populated into an array. The list of items in this area will be a collection of divs that represent the 
+// 2. A constant named 'sontTitlesArr' is declared and set equal to an array with the elements on the page with the class name 'tracklist-name' using the ES6 spread operator syntax. The spread operator allows multiple items to be populated into an array. The list of items in this area will be a collection of divs
 
 // 3. A constant named pitchClass is declared and set equal to an array of musical notes
 
@@ -140,17 +140,19 @@ function makeXhrRequest(method, url, token) { //.1
 
 // .19 The new array is returned. 
 
-// .20 A new promise object is created and passed the value from the last promise. The variable passed into the callback function to represent this value is named 'songRequestUrlArr'. The callback function will return another promise object using a special prototype method 'all'. The prototype method 'all' accepts an iterable of promises that will return a single promise that will resolve or reject if any of the promises fail. 
+// .20 A new promise object is created and passed the value from the last promise. The variable passed into the callback function to represent this value is named 'songRequestUrlArr'. 
 
-// .21 The map function will create an array of promise objects by calling 'makeXhrRequest' on each item in the song link array.
+// .21 The callback function will return another promise object using a special prototype method 'all'. The prototype method 'all' accepts an iterable of promises that will return a single promise that will resolve or reject if any of the promises fail. 
 
-// .22 A new promise object is borne with the results of the last promise fulfillment (as the thread of execution moves through this script, only placeholder values will be set). The returned value from the last promise was an array of song data objects. 
+// .22 The map function will create an array of promise objects by calling 'makeXhrRequest' on each item in the song link array.
 
-// .23 A new block-scoped variable is declared and set equal the parsed song data
+// .23 A new promise object is borne with the results of the last promise fulfillment (as the thread of execution moves through this script, only placeholder values will be set). The returned value from the last promise was an array of song data objects. 
 
-// .24 Inside the same map method, the function 'addSongInfoToTitle' is then called on each parsed song data object.
+// .24 A new block-scoped variable is declared and set equal the parsed song data
 
-// .25 The 'catch' prototype method will catch any errors if any of this or any promise attached to the chain fails.
+// .25 Inside the same map method, the function 'addSongInfoToTitle' is then called on each parsed song data object.
+
+// .26 The 'catch' prototype method will catch any errors if any of this or any promise attached to the chain fails.
 
 function makeXhrRequestForAlbumOrPlaylist(pathname, token) { //.1 
   let albumId, requestUrl, userId, playlistId //.2
@@ -176,24 +178,24 @@ function makeXhrRequestForAlbumOrPlaylist(pathname, token) { //.1
       });
       return audioAnalysisEndpointArr //.19
     })
-    .then(songRequestUrlArr => {
-      return Promise.all(songRequestUrlArr.map(songRequestUrl => { //.20
-        return makeXhrRequest('GET', songRequestUrl, token) //.21
+    .then(songRequestUrlArr => { //.20
+      return Promise.all(songRequestUrlArr.map(songRequestUrl => { //.21
+        return makeXhrRequest('GET', songRequestUrl, token) //.22
       }))
     })
-    .then(songDataArr => { //.22
-      let parsedSongDataArr = songDataArr.map(songData => JSON.parse(songData)) //.23  
-      addSongInfoToTitle(parsedSongDataArr) //.24
+    .then(songDataArr => { //.23
+      let parsedSongDataArr = songDataArr.map(songData => JSON.parse(songData)) //.24  
+      addSongInfoToTitle(parsedSongDataArr) //.25
     })
     .catch(err => {
-      console.error('AHHHHH', err); //.25
+      console.error('AHHHHH', err); //.26
     })
 
 }
 
 // 1. This script uses chrome's messaging platform api to register an event handler that will listen for incoming messages. The incoming message, in this case, will be coming from the background script / event page AFTER the event page receives its message from the extension script and calls it's function to make 'makeXhrPostRequest'.
 
-// 2. The 'onMessage' event listener takes a callback function that takes three parameters: the request which will be the request object that will be received by any onMessage listener, a message sender object that will contain details regarding the sender of the message and the context in which it was sent in, and a sendResponse callback function that will fire when the message has been received. See : https://developer.chrome.com/extensions/runtime#type-MessageSender for more details.
+// 2. The 'onMessage' event listener takes a callback function that takes three parameters: the request which will be the request object that will be received by any onMessage listener, a message sender object that will contain details regarding the sender of the message and the context in which it was sent in, and a 'sendResponse' callback function that will fire when the message has been received. See : https://developer.chrome.com/extensions/runtime#type-MessageSender for more details.
 
 // 3. The function defined above will take two parameters: a getPathname funciton that will fire immediately and find the pathname of the current url that the script is running in and the token value that is part of the request object that the 'onMessage' handler is receiving. See the function declaration to see how the XML request is made.
 

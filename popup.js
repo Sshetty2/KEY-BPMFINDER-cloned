@@ -5,7 +5,7 @@
 // finds the button by it's element and sets it equal to a block scoped variable 'button'
 let button = document.getElementById('authBtn')
 
-// this script utilizes chrome's local storage api to query the value of 'storageObj.status'; if the status is equal to '1' then the button's attribute will be set to disabled
+// this script utilizes chrome's local storage api to query the value of 'storageObj.status'; if the status is equal to '1' then the button's attribute will be set to 'disabled'
   chrome.storage.local.get(['status'], function(storageObj){
     console.log('storageObj is ', storageObj)
     if (storageObj.status === 1){
