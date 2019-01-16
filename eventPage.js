@@ -2,7 +2,7 @@
 
 // ------------------------------ // 
 
-// 1. An event listener is registered using chrome's 'runtime' platform api using the 'onInstalled' method (this event will fire when the extension is installed). NOTE: this platform api can not be used in a content script or extension scipt and only the event page/background script. 
+// 1. An event listener is registered using chrome's 'runtime' platform api using the 'onInstalled' method (this event will fire when the extension is installed). NOTE: this platform api can not be used in a content script or extension script and only the event page/background script. 
 
 // 2. Once the extension is installed, chrome's local storage object will be updated to set the value of 'status' to 0 (the code for handling the value of status is in the extension scripts; it will turn a button on or off);
 
@@ -71,19 +71,19 @@ function makeXhrPostRequest(code, grantType, refreshToken){ //.1
 
 // 2. If the 'action' associated with this particular request is called 'launchOauth' (the message will be coming from the extension script; 'popup.js'), chrome's identity API is used to initiate the authentication flow with spotify; 
 
-// 3. As per the documentation for chrome's identity API, https://developer.chrome.com/apps/identity#method-launchWebAuthFlow, 'launchWebAuthFlow' takes an object and a callback as a parameter. The object will take a URL that 'initiates the auth flow' and a boolean for the 'interactive' flag. This flag pertains to whether or not the user is redirected to a new window for authentication or not (in this case, they are, and so, this flag is set to 'true'); 
+// 3. As per the documentation for chrome's identity API, https://developer.chrome.com/apps/identity#method-launchWebAuthFlow, 'launchWebAuthFlow' takes an object and a callback as a parameter. The object will take a URL that 'initiates the auth flow' and a boolean for the 'interactive' flag. This flag pertains to whether or not the user is redirected to a new window for authentication or not (in this case, they are, and so, this flag is set to 'true'); The callback will take the redirect URL as a parameter that can be used as an authorization code for future requests to the API. The redirect URL will be valid for one hour.
 
-// 4. The callback will take the resulting 'responseUrl' as a parameter.
+// 4. The callback will take the resulting 'redirectUrl' as a parameter which will be the redirect url that was recieved from the authentication request.
 
-// NOTE: This auth flow is specific for third part non-google APIs; if the API is provided by google, the auth flow is slightly different, and, it's, arguably, slightly easier to use. See https://developer.chrome.com/extensions/app_identity for more details.
+// NOTE: This auth flow is specific for third party non-google APIs; if the API is provided by google, the auth flow is slightly different, and, it's, arguably, slightly easier to use. See https://developer.chrome.com/extensions/app_identity for more details.
 
 // .5 within the callback as part of the auth flow, a block-scoped variable named code is declared and set equal to a reformatted version of the redirect url that was passed in as an argument (see docs and notes above) that would work with an XML Post request
 
-// .6 an XML post request is made using the function that was defined above with the reformatted redirect url('code') passed in as a parameter as well as the 'grantType' which is ''authorization_code''. The return value of the function is a promise that can be used as the beginning of a chain for further commands
+// .6 an XML post request is made using the function that was defined above with the reformatted redirect url('code') passed in as a parameter as well as the 'grantType' (which is 'authorization_code' in this call). The return value of the function is a promise that can be used as the beginning of a chain for further commands
 
 // .7 'then' is used to specify further commands on the return value of the promise; the data that was returned as a result of the XML request is now passed into a new function as a parameter that will be called 'data'
 
-// 8. as part of the same promise chain, an event listener is created to fire when a tab is updated; the event listener accepts a callback the parameters of this callback include a tabId(integer), changeInfo(an object), and a tab (tab object that gives the state of the tab that was updated); The parameters will be filled by chrome to be used in this callback; NOTE: tabid is not used
+// 8. as part of the same promise chain, an event listener is created to fire when a tab is updated; the event listener accepts a callback. The parameters of this callback include a tabId(integer), changeInfo(an object), and a tab (tab object that gives the state of the tab that was updated); The parameters will be filled by chrome to be used in this callback; NOTE: tabid is not used
 
 // 9. the different properties of the objects listed here are delineated in the documentation for chromes extension tabs docs https://developer.chrome.com/extensions/tabs; the function checks that the tab has completed loading and that the URL includes spotify 
 

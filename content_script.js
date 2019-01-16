@@ -199,7 +199,7 @@ function makeXhrRequestForAlbumOrPlaylist(pathname, token) { //.1
 
 // 3. The function defined above will take two parameters: a getPathname funciton that will fire immediately and find the pathname of the current url that the script is running in and the token value that is part of the request object that the 'onMessage' handler is receiving. See the function declaration to see how the XML request is made.
 
-// 4. the sendResonse callback function will return a string 'WE GOT THE MESSAGE' which will be handled in 'eventPage.js'. It will accept a response object and deconstruct it to get the raw string. 
+// 4. The sendResonse callback function will return a string 'WE GOT THE MESSAGE' which will be handled in 'eventPage.js'. It will accept a response object and deconstruct it to get the raw string. 
 
 chrome.runtime.onMessage.addListener( //.1
   function(request, sender, sendResponse) { //.2
