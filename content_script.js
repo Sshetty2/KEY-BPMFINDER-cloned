@@ -122,10 +122,35 @@ function makeXhrRequest(method, url, token) { //.1
 
 // .10 this function returns a call to the function 'makeXhrRequest' that returns a promise object that can be chained together with more asynchronous methods synchronously
 
-// .11 the then prototype method can be attached to promise objects that will return a new promise object that will accept as a parameter the value that was returned from the previous promise that it was chained to. In this case the returned value from the previous promise is passed in as an argument called data.
+// .11 the then prototype method can be attached to promise objects that will return a new promise object that will accept as a parameter the value that was returned from the previous promise that it was chained to. In this case the returned value from the previous promise is passed in as an argument called data which will be the returned request object from the XML Http Request.
 
-// .12
+// .12 A new block-scoped variable called 'parsedData' is declared and stored in memory and set equal to the data after it has been parsed. It simply organizes and reformats the data into something that be easily manipulated using javascript syntax.
 
+// .13 A new block-scoped variable named 'hrefArr' is declared and stored in local memory and set equal to an array of the links for each song that in the song data array. It does this by using javascripts prototype map method on the item property of the parsed data object which just happens to be an array which will take a callback function as an argument. The callback function will take one argument which will represent each individual array (or object) item and manipulate and return that data for each element but it will not transform the array itself. 
+
+// .14 For each element in the parsed song data array (object in this case), the map method runs a conditional check (because some items in the object apparently do not have a track property associated with it) and returns the link url or 'href'.
+
+// .15 If and when this promise object resolves, it will return a new array filled with links 
+
+// .16 A new promise is created that takes the resolved value from the last promise as an argument in the callback function. The argument in this case is called 'songLinkArr'.
+
+// .17 A new block-scoped variable is defined and set equal to a new array that is built by mapping over the value that would be passed into this promise. 
+
+// .18 For each element in the link array, the part of the link where '/tracks/' is stated is replaced with 'audio-analysis'.
+
+// .19 The new array is returned. 
+
+// .20 A new promise object is created and passed the value from the last promise. The variable passed into the callback function to represent this value is named 'songRequestUrlArr'. The callback function will return another promise object using a special prototype method 'all'. The prototype method 'all' accepts an iterable of promises that will return a single promise that will resolve or reject if any of the promises fail. 
+
+// .21 The map function will create an array of promise objects by calling 'makeXhrRequest' on each item in the song link array.
+
+// .22 A new promise object is borne with the results of the last promise fulfillment (as the thread of execution moves through this script, only placeholder values will be set). The returned value from the last promise was an array of song data objects. 
+
+// .23 A new block-scoped variable is declared and set equal the parsed song data
+
+// .24 Inside the same map method, the function 'addSongInfoToTitle' is then called on each parsed song data object.
+
+// .25 The 'catch' prototype method will catch any errors if any of this or any promise attached to the chain fails.
 
 function makeXhrRequestForAlbumOrPlaylist(pathname, token) { //.1 
   let albumId, requestUrl, userId, playlistId //.2
@@ -139,29 +164,29 @@ function makeXhrRequestForAlbumOrPlaylist(pathname, token) { //.1
   }
     return makeXhrRequest('GET', requestUrl, token) // .10
     .then((data) => { // .11
-      let parsedData = JSON.parse(data) 
-      let hrefArr = parsedData.items.map(item => {
-        return (item.hasOwnProperty('track')) ? item.track.href : item.href
+      let parsedData = JSON.parse(data) //.12
+      let hrefArr = parsedData.items.map(item => { //.13
+        return (item.hasOwnProperty('track')) ? item.track.href : item.href //.14 
       })
-      return hrefArr
+      return hrefArr //.15
     })
-    .then(songLinkArr => {
-      let audioAnalysisEndpointArr = songLinkArr.map(link => {
-        return link.replace(/tracks/i, 'audio-analysis')
+    .then(songLinkArr => { //.16
+      let audioAnalysisEndpointArr = songLinkArr.map(link => { //.17
+        return link.replace(/tracks/i, 'audio-analysis') //.18
       });
-      return audioAnalysisEndpointArr
+      return audioAnalysisEndpointArr //.19
     })
     .then(songRequestUrlArr => {
-      return Promise.all(songRequestUrlArr.map(songRequestUrl => {
-        return makeXhrRequest('GET', songRequestUrl, token)
+      return Promise.all(songRequestUrlArr.map(songRequestUrl => { //.20
+        return makeXhrRequest('GET', songRequestUrl, token) //.21
       }))
     })
-    .then(songDataArr => {
-      let parsedSongDataArr = songDataArr.map(songData => JSON.parse(songData))
-      addSongInfoToTitle(parsedSongDataArr)
+    .then(songDataArr => { //.22
+      let parsedSongDataArr = songDataArr.map(songData => JSON.parse(songData)) //.23  
+      addSongInfoToTitle(parsedSongDataArr) //.24
     })
     .catch(err => {
-      console.error('AHHHHH', err);
+      console.error('AHHHHH', err); //.25
     })
 
 }
