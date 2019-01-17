@@ -87,7 +87,7 @@ function makeXhrPostRequest(code, grantType, refreshToken){ //.1
 
 // 9. the different properties of the objects listed here are delineated in the documentation for chromes extension tabs docs https://developer.chrome.com/extensions/tabs; the function checks that the tab has completed loading and that the URL includes spotify 
 
-// 10. as part of the same onUpdated event listener, another chrome extension-based script is run that will determine the current tab
+// 10. as part of the same 'onUpdated.addListener' event listener, another chrome extension-based script is run that will determine the current tab
 
 // 11. it will then pass this information into a callback that accepts the result of the query; the callback will use the tab id attained from the tabs passed in as an argument and the object to be sent (simply a 'json-ifiable' object; in this case, the message is the data.access_token stored in the object as 'token' that will be received by the content script) and send a message using chrome's messaging api;
 
