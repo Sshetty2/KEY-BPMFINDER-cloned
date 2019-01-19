@@ -99,7 +99,7 @@ function makeXhrPostRequest(code, grantType, refreshToken){ //.1
 
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse){ //.1
   if (request.action === 'launchOauth'){ //.2
-    chrome.identity.launchWebAuthFlow({//.3
+    chrome.identity.launchWebAuthFlow({ //.3
       url: 'https://accounts.spotify.com/authorize' +
       '?client_id=redacted' +
       '&response_type=code' +
