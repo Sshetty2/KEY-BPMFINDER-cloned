@@ -62,6 +62,9 @@ function makeXhrPostRequest(code, grantType, refreshToken){ //.1
       }))
     }
     //.8
+
+    // must reformat this solution based on the parameters set forth by meetup 
+    
      let requestBody = (refreshToken) ? 'grant_type=' + grantType + '&refresh_token=' + refreshToken + '&client_id=redacted&client_secret=' : 'grant_type=' + grantType + '&code=' + code + '&redirect_uri=' + redirectUri + '&client_id=redacted&client_secret=redacted'
     xhr.send(requestBody) //.9
   })
